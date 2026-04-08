@@ -47,6 +47,14 @@ a {
   margin-bottom: 12px;
 }
 
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .toolbar-label,
 .section-kicker,
 .contact-label,
@@ -461,6 +469,16 @@ a.contact-chip:hover {
 }
 
 @media (max-width: 720px) {
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .toolbar-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .page-shell {
     padding: 16px 12px 28px;
   }
@@ -492,11 +510,15 @@ a.contact-chip:hover {
 @media print {
   @page {
     size: A4;
-    margin: 10mm;
+    margin: 5mm;
   }
 
+  html,
   body {
     background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-size: 92%;
   }
 
   .page-shell {
@@ -516,17 +538,147 @@ a.contact-chip:hover {
   .role-card,
   .impact-panel,
   .education-block,
+  .stat-card,
   .contact-chip {
     box-shadow: none;
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+  }
+
+  .hero,
+  .section-card,
+  .sidebar-card,
+  .job-top,
+  .stats-grid,
+  .contact-list,
+  .achievement-list {
     break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .card {
     border-radius: 12px;
   }
 
+  .name {
+    font-size: 2.55rem;
+  }
+
+  .role,
+  .hero-summary,
+  .job-title,
+  .stack-values,
+  .education-meta,
+  .achievement-list li {
+    line-height: 1.45;
+  }
+
+  .hero-location,
+  .contact-value,
+  .stat-label,
+  .education-meta {
+    font-size: 0.82rem;
+  }
+
+  .tag,
+  .contact-label,
+  .stack-label,
+  .period,
+  .toolbar-label,
+  .section-kicker,
+  .impact-label {
+    font-size: 0.64rem;
+  }
+
   .hero {
-    padding: 20px;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .content-grid {
+    grid-template-columns: minmax(0, 1.62fr) 235px;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .section-card {
+    padding: 12px;
+  }
+
+  .role-card {
+    padding: 11px;
+  }
+
+  .impact-panel,
+  .education-block {
+    padding: 12px;
+  }
+
+  .stat-card {
+    padding: 9px;
+  }
+
+  .contact-chip {
+    padding: 6px 8px;
+  }
+
+  .contact-list,
+  .hero-tags,
+  .timeline,
+  .stack-list,
+  .achievement-list {
+    gap: 6px;
+  }
+
+  .main-column,
+  .sidebar,
+  .stats-grid {
+    gap: 10px;
+  }
+
+  .section-heading,
+  .section-heading.compact,
+  .job-top {
+    margin-bottom: 10px;
+  }
+
+  .hero-tags,
+  .contact-list {
+    margin-top: 10px;
+  }
+
+  .stats-grid {
+    margin-top: 10px;
+  }
+
+  .stack-group {
+    padding-top: 10px;
+  }
+
+  .stack-values,
+  .job-title,
+  .education-meta {
+    margin-top: 4px;
+  }
+
+  .achievement-list li {
+    font-size: 0.84rem;
+    padding-left: 13px;
+  }
+
+  .achievement-list li::before {
+    width: 5px;
+    height: 5px;
+  }
+
+  .section-title {
+    font-size: 1.08rem;
+  }
+
+  .company,
+  .education-degree,
+  .impact-title {
+    font-size: 0.95rem;
   }
 
   .impact-panel {

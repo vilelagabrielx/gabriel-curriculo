@@ -5,8 +5,8 @@ const translations = {
     eyebrow: "Currículo profissional",
     role: "Desenvolvedor Full Stack | Tax IT no BTG Pactual | Next.js · TypeScript · Python · C#",
     heroLocation: "Baseado no Rio de Janeiro, Brasil",
-    heroSummary: "Atuo em sistemas internos para operações tributárias de renda fixa no BTG Pactual. Trabalho com portais internos, automação de backend, SQL Server e fluxos de dados na AWS em ambiente regulado.",
-    tag1: "Tax IT, Renda Fixa & Portais Internos",
+    heroSummary: "Atuo em sistemas internos para operações tributárias no BTG Pactual, cobrindo diferentes produtos e rotinas de negócio. Trabalho com portais internos, automação de backend, SQL Server e fluxos de dados na AWS em ambiente regulado.",
+    tag1: "Tax IT, Operações Tributárias & Portais Internos",
     tag2: "Next.js, TypeScript, Python & C#",
     tag3: "AWS, SQL Server & Fluxos de Dados",
     contactEmailLabel: "Email",
@@ -16,7 +16,7 @@ const translations = {
     impactLabel: "Escopo atual",
     impactTitle: "Atuação full stack em operações tributárias internas e fluxos de dados em ambiente regulado de produção.",
     stat1Value: "Tax IT",
-    stat1Label: "fluxos tributários de renda fixa e rotinas ligadas a pagamento",
+    stat1Label: "fluxos tributários em diferentes produtos e rotinas ligadas a pagamento",
     stat2Value: "Frontend",
     stat2Label: "portais internos para análise e reporte tributário",
     stat3Value: "Backend",
@@ -28,8 +28,8 @@ const translations = {
     exp1Company: "BTG Pactual <span class=\"company-note\">via ACT Digital</span>",
     exp1Role: "Desenvolvedor Full Stack Pleno",
     exp1Period: "Out 2023 - Presente",
-    exp1Bullet1: "Atuo na área de Tax IT do BTG Pactual em sistemas internos para operações tributárias de renda fixa.",
-    exp1Bullet2: "Construo portais internos com Next.js e TypeScript para análise e reporte tributário, incluindo o portal da e-Financeira.",
+    exp1Bullet1: "Atuo na área de Tax IT do BTG Pactual em sistemas internos que suportam operações tributárias em diferentes produtos e rotinas.",
+    exp1Bullet2: "Construo portais internos com Next.js e TypeScript para análise tributária, reporte e fluxos regulatórios.",
     exp1Bullet3: "Entrego soluções de backend e automação com Python e C#/.NET para fluxos internos e processamento em alto volume.",
     exp1Bullet4: "Utilizo AWS, Spark, SQL Server e rotinas ETL para sustentar integrações, mensageria e fluxos críticos de dados.",
     exp2Company: "Neosyx Development",
@@ -68,8 +68,8 @@ const translations = {
     eyebrow: "Professional resume",
     role: "Full Stack Developer | Tax IT at BTG Pactual | Next.js · TypeScript · Python · C#",
     heroLocation: "Based in Rio de Janeiro, Brazil",
-    heroSummary: "Build internal systems for fixed income tax operations at BTG Pactual. Hands-on with internal portals, backend automation, SQL Server, and AWS data workflows in a regulated environment.",
-    tag1: "Tax IT, Fixed Income & Internal Portals",
+    heroSummary: "Build internal systems for tax operations at BTG Pactual across different products and business workflows. Hands-on with internal portals, backend automation, SQL Server, and AWS data workflows in a regulated environment.",
+    tag1: "Tax IT, Tax Operations & Internal Portals",
     tag2: "Next.js, TypeScript, Python & C#",
     tag3: "AWS, SQL Server & Data Workflows",
     contactEmailLabel: "Email",
@@ -79,7 +79,7 @@ const translations = {
     impactLabel: "Current scope",
     impactTitle: "Full-stack delivery for internal tax operations and data workflows in a regulated production environment.",
     stat1Value: "Tax IT",
-    stat1Label: "fixed income tax flows and payment-related operations",
+    stat1Label: "tax flows across different products and payment-related operations",
     stat2Value: "Frontend",
     stat2Label: "internal portals for tax analysis and reporting",
     stat3Value: "Backend",
@@ -91,8 +91,8 @@ const translations = {
     exp1Company: "BTG Pactual <span class=\"company-note\">through ACT Digital</span>",
     exp1Role: "Mid-Level Full Stack Developer",
     exp1Period: "Oct 2023 - Present",
-    exp1Bullet1: "Work in BTG Pactual's Tax IT area on internal systems for fixed income tax operations.",
-    exp1Bullet2: "Build internal portals with Next.js and TypeScript for tax analysis and reporting, including the e-Financeira portal.",
+    exp1Bullet1: "Work in BTG Pactual's Tax IT area on internal systems that support tax operations across different products and workflows.",
+    exp1Bullet2: "Build internal portals with Next.js and TypeScript for tax analysis, reporting, and regulatory workflows.",
     exp1Bullet3: "Deliver backend and automation solutions with Python and C#/.NET for internal workflows and high-volume processing.",
     exp1Bullet4: "Use AWS, Spark, SQL Server, and ETL routines to support integrations, messaging, and critical data workflows.",
     exp2Company: "Neosyx Development",
@@ -128,7 +128,36 @@ const translations = {
 };
 
 const defaultLanguage = "en";
+const storageKey = "gabriel-resume-language";
 const buttons = document.querySelectorAll("[data-lang-target]");
+
+function saveLanguagePreference(lang) {
+  try {
+    window.localStorage.setItem(storageKey, lang);
+  } catch (error) {
+    console.warn("Could not persist selected language.", error);
+  }
+}
+
+function getInitialLanguage() {
+  const params = new URLSearchParams(window.location.search);
+  const queryLanguage = params.get("lang");
+
+  if (queryLanguage && translations[queryLanguage]) {
+    return queryLanguage;
+  }
+
+  try {
+    const storedLanguage = window.localStorage.getItem(storageKey);
+    if (storedLanguage && translations[storedLanguage]) {
+      return storedLanguage;
+    }
+  } catch (error) {
+    console.warn("Could not read saved language preference.", error);
+  }
+
+  return defaultLanguage;
+}
 
 function applyLanguage(lang) {
   const nextLanguage = translations[lang] ? lang : defaultLanguage;
@@ -160,8 +189,12 @@ function applyLanguage(lang) {
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    applyLanguage(button.dataset.langTarget);
+    const selectedLanguage = button.dataset.langTarget;
+    applyLanguage(selectedLanguage);
+    saveLanguagePreference(selectedLanguage);
   });
 });
 
-applyLanguage(defaultLanguage);
+const initialLanguage = getInitialLanguage();
+applyLanguage(initialLanguage);
+saveLanguagePreference(initialLanguage);
